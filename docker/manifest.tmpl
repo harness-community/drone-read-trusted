@@ -14,5 +14,6 @@ manifests:
   -
     image: plugins/read-trusted:{{#if build.tag}}{{trimPrefix "v" build.tag}}-{{/if}}linux-arm64
     platform:
+      variant: v8
       architecture: arm64
       os: linux
