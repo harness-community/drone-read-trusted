@@ -1,0 +1,17 @@
+FROM alpine:latest as builder
+
+# Install certificates and Git (needed for CLI commands)
+RUN apk --no-cache add git ca-certificates
+
+FROM alpine:latest
+
+# Install certificates and Git
+RUN apk --no-cache add git ca-certificates
+
+# Copy certificates from builder stage
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+
+# Add the pre-built binary for Linux arm64
+ADD release/linux/arm64/drone-read-trusted /bin/
+
+ENTRYPOINT ["/bin/drone-read-trusted"]
